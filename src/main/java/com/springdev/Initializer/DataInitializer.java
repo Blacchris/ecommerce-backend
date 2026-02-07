@@ -5,8 +5,9 @@ import com.springdev.Entity.RoleName;
 import com.springdev.Repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-3
+
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {

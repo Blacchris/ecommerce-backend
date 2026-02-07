@@ -1,6 +1,7 @@
 package com.springdev.Service;
 
 
+import com.springdev.DTO.UserRequestDTO;
 import com.springdev.DTO.UserResponseDTO;
 import com.springdev.Entity.Role;
 import com.springdev.Entity.RoleName;
@@ -28,28 +29,28 @@ public class UserService {
         return fetchUser(user);
     }
 
-    public UserResponseDTO createUser(User user){
-        User user1 = new User(
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword()
-        );
-        Role role = roleRepository.findByName(RoleName.ADMIN)
-                        .orElseThrow(() -> new RuntimeException("Role not found"));
-        user1.getRoles().add(role);
-        return fetchUser(user1);
-    }
+//    public UserResponseDTO createUser(UserRequestDTO userRequestDTO){
+//        User user1 = new User(
+//                userRequestDTO.getUsername(),
+//                userRequestDTO.getEmail(),
+//                userRequestDTO.getPassword()
+//        );
+//        Role role = roleRepository.findByName(RoleName.ADMIN)
+//                        .orElseThrow(() -> new RuntimeException("Role not found"));
+//        user1.getRoles().add(role);
+//        return fetchUser(user1);
+//    }
 
-    public User updateUserById(long id, User user){
+    public UserResponseDTO updateUser(long id, UserRequestDTO userRequestDTO){
         User update = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(String.format(USER_NOT_FOUND, id)));
-        update.setUsername(user.getUsername());
-        update.setEmail(user.getEmail());
-        update.setPassword(user.getPassword());
-        return userRepository.save(update);
+        update.setUsername(userRequestDTO.getUsername());
+        update.setEmail(userRequestDTO.getEmail());
+        update.setPassword(userRequestDTO.getPassword());
+        return fetchUser(userRepository.save(update));
     }
 
-    public void deleteUserById(long id){
+    public void deleteUser(long id){
         userRepository.deleteById(id);
     }
 

@@ -1,21 +1,18 @@
 package com.springdev.DTO;
 
 import com.springdev.Entity.Role;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
-import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
-public class UserResponseDTO {
+public class AuthResponseDTO {
 
+    private String token;
     private long id;
     private String username;
     private String email;
-    private Set<String> roles = new HashSet<>();
-
-
+    private Set<String> roles;
 }
