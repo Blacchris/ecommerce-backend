@@ -24,4 +24,8 @@ public class Category {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
+
+    public Category(String name) {
+        this.name = name;
+    }
 }
