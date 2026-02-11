@@ -40,7 +40,8 @@ public class CategoryService {
         return fetchCategory(
                 categoryRepository.save(
                         new Category(
-                                categoryRequest.getName()
+                                categoryRequest.getName(),
+                                categoryRequest.getDescription()
                         )
                 )
         );

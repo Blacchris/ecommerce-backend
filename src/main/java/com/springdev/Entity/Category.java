@@ -21,11 +21,13 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    private String description;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
-    public Category(String name) {
+    public Category(String name, String description) {
         this.name = name;
+        this.description = description;
     }
 }
