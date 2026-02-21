@@ -6,6 +6,7 @@ import com.springdev.DTO.UserResponseDTO;
 import com.springdev.Entity.CustomUserDetails;
 import com.springdev.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 //is a Spring MVC annotation used to map HTTP requests (URLs + methods) to a controller or controller method.
 @RequestMapping(path = "/api/v1/user")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     final private UserService userService;
@@ -33,6 +35,7 @@ public class UserController {
             @AuthenticationPrincipal CustomUserDetails principal,
             //@RequestBody = Deserializes JSON/XML from HTTP request body into a Java object automatically.
             @RequestBody UserRequestDTO userRequestDTO){
+        log.info("Update Endpoint was called");
         long user_id = principal.getUser().getId();
         return ResponseEntity.ok(userService.updateUser(user_id, userRequestDTO));
     }
