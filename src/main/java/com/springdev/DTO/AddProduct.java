@@ -15,5 +15,5 @@ public class AddProduct {
     private String description;
     private BigDecimal price;
     private int stock;
-    private String Category;
+    private long category_id;
 }

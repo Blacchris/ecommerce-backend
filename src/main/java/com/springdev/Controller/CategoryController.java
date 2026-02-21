@@ -15,10 +15,9 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/categories")
+@RequestMapping(path = "/api/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
-
 
     private final CategoryService categoryService;
 
@@ -27,27 +26,10 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getCategories());
     }
 
-    @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CategoryResponse> createCategory(@Valid @RequestBody CategoryRequest categoryRequest){
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(categoryService.createCategory(categoryRequest));
-    }
 
-//    @PutMapping(path = "/{id}")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<CategoryResponse> updateCategory(
-//            @Valid @RequestBody CategoryRequest categoryRequest
-//    ){
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .body(categoryService.)
-//    }
 
-    @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteCategory(@PathVariable long id){
-        categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
-    }
+
+
+
 
 }

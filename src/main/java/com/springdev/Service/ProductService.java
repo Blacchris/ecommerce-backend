@@ -1,11 +1,14 @@
 package com.springdev.Service;
 
+import com.springdev.CustomExceptions.CategoryNotFoundException;
 import com.springdev.CustomExceptions.ProductNotFoundException;
 import com.springdev.DTO.AddProduct;
 import com.springdev.DTO.ProductResponse;
 import com.springdev.DTO.ProductUpdateDTO;
+import com.springdev.Entity.Category;
 import com.springdev.Entity.Product;
 import com.springdev.Entity.User;
+import com.springdev.Repository.CategoryRepository;
 import com.springdev.Repository.ProductRepository;
 import com.springdev.Repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -27,6 +30,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<ProductResponse> getProducts(){
         return productRepository.findAll()
@@ -55,6 +59,8 @@ public class ProductService {
                                 .description(p.getDescription())
                                 .price((p.getPrice()))
                                 .stock(p.getStock())
+                        .category(categoryRepository.findById(p.getCategory_id())
+                                .orElseThrow(() -> new CategoryNotFoundException("category not found")))
                                 .build()).toList();
 
         List<Product> saveProducts = productRepository.saveAll(products);
