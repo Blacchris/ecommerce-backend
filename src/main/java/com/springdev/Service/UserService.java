@@ -10,9 +10,10 @@ import com.springdev.Repository.RoleRepository;
 import com.springdev.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
 import java.util.HashSet;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,13 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(String.format(USER_NOT_FOUND, id)));
         return fetchUser(user);
+    }
+
+    public List<UserResponseDTO> getAllUsers(){
+        return userRepository.findAll()
+                .stream()
+                .map(this::fetchUser)
+                .toList();
     }
 
 //    public UserResponseDTO createUser(UserRequestDTO userRequestDTO){
