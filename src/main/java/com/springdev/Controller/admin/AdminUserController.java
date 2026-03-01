@@ -1,14 +1,15 @@
 package com.springdev.Controller.admin;
 
-import com.springdev.DTO.AssignRoleRequest;
-import com.springdev.DTO.UserResponseDTO;
-import com.springdev.DTO.UserRoleResponse;
-import com.springdev.Service.AssignRoleService;
+import com.springdev.DTO.*;
+import com.springdev.Service.SellerRequestService;
 import com.springdev.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 
 @RestController
@@ -18,17 +19,32 @@ import java.util.List;
 public class AdminUserController {
 
 
-    final private AssignRoleService assignRoleService;
     final private UserService userService;
+    final private SellerRequestService sellerRequestService;
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PostMapping
-    public ResponseEntity<UserRoleResponse> assignRole(
-            @RequestBody AssignRoleRequest request){
-        return ResponseEntity.ok(assignRoleService.assignRole(request));
+
+    @GetMapping(path = "/seller-requests")
+    public ResponseEntity<List<SellerRoleRequestResponseDTO>> getPendingSellerRequests() {
+        return ResponseEntity.status(HttpStatus.OK).body(sellerRequestService.getPendingRequests());
+    }
+
+    @PostMapping(path = "/seller-request/approve/{Id}")
+    public ResponseEntity<SellerRoleRequestResponseDTO> ApproveSellerRequest(
+             @PathVariable long Id
+    ) throws RoleNotFoundException {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(sellerRequestService.approve(Id));
+    }
+
+    @PostMapping(path = "/seller-request/reject/{Id}")
+    public ResponseEntity<SellerRoleRequestResponseDTO> RejectSellerRequest(
+            @PathVariable long Id
+    ) {
+        return ResponseEntity.ok(sellerRequestService.reject(Id));
     }
 }

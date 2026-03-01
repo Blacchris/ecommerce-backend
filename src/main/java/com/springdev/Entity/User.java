@@ -3,8 +3,10 @@ package com.springdev.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +31,9 @@ public class User {
         this.password = password;
     }
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Seller seller;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
@@ -36,5 +41,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
 
 }

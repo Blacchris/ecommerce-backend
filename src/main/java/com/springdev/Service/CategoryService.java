@@ -62,10 +62,9 @@ public class CategoryService {
 
 
     public void deleteCategory(long id){
-        if(!categoryRepository.existsById(id)){
-            throw new CategoryAlreadyExistException(String.format("Category with id: %s is not found", id));
-        }
-        categoryRepository.deleteById(id);
+        Category category = categoryRepository.findById(id)
+                        .orElseThrow(() -> new CategoryNotFoundException(String.format("Category with id: %s is not found", id)));;
+        categoryRepository.delete(category);
     }
 
     private CategoryResponse fetchCategory(Category category){

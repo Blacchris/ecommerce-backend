@@ -30,6 +30,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- JavaFaker -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
         <!-- Spring Data JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -87,6 +94,12 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
+
+
+
+
+
+
 
         <!-- Spring Boot Test -->
         <dependency>

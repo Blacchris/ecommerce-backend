@@ -25,38 +25,57 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping(path = "/{id}")
+    @GetMapping
+    public ResponseEntity<List<ProductResponse>> getAllProducts(){
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @GetMapping(path = "/{Id}")
+    @PreAuthorize("hasRole('SELLER')")
     public ResponseEntity<ProductResponse> getProduct(
-            @PathVariable long id){
-        return ResponseEntity.ok(productService.getProduct(id));
+            @PathVariable long Id,
+            @AuthenticationPrincipal CustomUserDetails principal){
+        long userId = principal.getUser().getId();
+        return ResponseEntity.ok(productService.getProduct(userId, Id));
     }
 
     @GetMapping(path = "/products")
-    public ResponseEntity<List<ProductResponse>> getProducts(){
-        return ResponseEntity.ok(productService.getProducts());
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<List<ProductResponse>> getAllProductsBySeller(
+            @AuthenticationPrincipal CustomUserDetails principal
+    ){
+        long userId = principal.getUser().getId();
+        return ResponseEntity.ok(productService.getAllProductsBySeller(userId));
     }
 
     @PostMapping(path= "/products")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
     public ResponseEntity<List<ProductResponse>> createProduct(
+            @AuthenticationPrincipal CustomUserDetails principal,
             @RequestBody List<AddProduct> addProduct
             ) {
-        return ResponseEntity.status(201).body(productService.createProduct(addProduct));
+        long userId = principal.getUser().getId();
+        return ResponseEntity.status(201).body(productService.createProduct(userId, addProduct));
     }
 
-    @PatchMapping(path = "/{id}")
+    @PatchMapping(path = "/{Id}")
     @PreAuthorize("hasRole('ADMIN', 'SELLER')")
     public ResponseEntity<ProductResponse> updateProduct(
-            @PathVariable long id,
+            @PathVariable long Id,
+            @AuthenticationPrincipal CustomUserDetails principal,
             @RequestBody ProductUpdateDTO productUpdateDTO
     ) {
-        return ResponseEntity.ok(productService.updateProduct(id, productUpdateDTO));
+        long userId = principal.getUser().getId();
+        return ResponseEntity.ok(productService.updateProduct(userId, Id, productUpdateDTO));
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{Id}")
     @PreAuthorize("hasRole('ADMIN', 'SELLER')")
-    public ResponseEntity<Void> deleteProductById(@PathVariable long id){
-        productService.deleteProductById(id);
+    public ResponseEntity<Void> deleteProductById(
+            @PathVariable long Id,
+            @AuthenticationPrincipal CustomUserDetails principal){
+        long userId = principal.getUser().getId();
+        productService.deleteProductById(userId, Id);
         return ResponseEntity.noContent().build();
     }
 
