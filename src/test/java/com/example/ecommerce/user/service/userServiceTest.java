@@ -160,7 +160,7 @@ class userServiceTest {
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-          userService.deleteUSer(1L);
+          userService.deleteUser(1L);
 
           verify(userRepository).findById(1L);
           verify(userRepository).delete(user);
@@ -247,7 +247,7 @@ class userServiceTest {
          Long id=1L;
         when(userRepository.findById(id)).thenReturn(Optional.empty());
         assertThrows(UserNotFoundException.class,
-                ()-> userService.deleteUSer(id));
+                ()-> userService.deleteUser(id));
 
     }
 

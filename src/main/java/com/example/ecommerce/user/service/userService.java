@@ -120,7 +120,7 @@ if( passwordEncoder.matches(dto.getPassword(),user.getPassword())){
 }
 
 
-    public void  deleteUSer(Long id){
+    public void  deleteUser(Long id){
         user user = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("cannot find user with id " + id) );
                 userRepository.delete(user);
     }
