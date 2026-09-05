@@ -44,7 +44,7 @@ public class ProductService {
                 .build();
 
         Product saved = productRepo.save(product);
-        return toResponse(product);
+        return toResponse(saved);
     }
 
 
