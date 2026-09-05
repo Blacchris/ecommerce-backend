@@ -43,8 +43,7 @@ public class ProductService {
                 .stock(req.getStock())
                 .build();
 
-        Product saved = productRepo.save(product);
-        return toResponse(saved);
+        return toResponse(productRepo.save(product));
     }
 
 
