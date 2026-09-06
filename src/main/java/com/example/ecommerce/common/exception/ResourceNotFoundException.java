@@ -1,6 +1,6 @@
 package com.example.ecommerce.common.exception;
 
-public class ResourceNotFoundException extends Exception{
+public class ResourceNotFoundException extends RuntimeException{
 
     public ResourceNotFoundException(String message) {
         super(message);

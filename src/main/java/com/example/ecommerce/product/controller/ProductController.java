@@ -30,7 +30,7 @@ public class ProductController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<ResponseProductDTO> getProduct(
             @PathVariable Long id
-    ) throws ResourceNotFoundException {
+    ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productService.getProductById(id));
     }
@@ -47,7 +47,7 @@ public class ProductController {
     public ResponseEntity<ResponseProductDTO> updateProduct(
             @Valid @RequestBody UpdateProductDTO req,
             @PathVariable Long id
-            ) throws ResourceNotFoundException {
+            ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productService.updateProduct(req, id));
     }
@@ -55,7 +55,7 @@ public class ProductController {
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> deleteProduct(
             @PathVariable Long id
-    ) throws ResourceNotFoundException {
+    ) {
         productService.deleteProductById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

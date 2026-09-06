@@ -30,7 +30,7 @@ public class ProductService {
                 .toList();
     }
 
-    public ResponseProductDTO getProductById(Long id) throws ResourceNotFoundException {
+    public ResponseProductDTO getProductById(Long id) {
         Product product = findOrThrow(id);
         return toResponse(product);
     }
@@ -48,10 +48,8 @@ public class ProductService {
 
 
     @Transactional
-    public ResponseProductDTO updateProduct(UpdateProductDTO req, Long id) throws ResourceNotFoundException {
-
-        Product found = findOrThrow(id);
-        if (req.getName() != null && !req.getName().isBlank()) {
+    public ResponseProductDTO updateProduct(UpdateProductDTO req, Long id) {
+        Product found = findOrThrow(id);        if (req.getName() != null && !req.getName().isBlank()) {
             found.changeName(req.getName());
         }
         if (req.getDescription() != null && !req.getDescription().isBlank()) {
@@ -70,7 +68,7 @@ public class ProductService {
         return toResponse(update);
     }
 
-    public void deleteProductById(Long id) throws ResourceNotFoundException {
+    public void deleteProductById(Long id) {
         if (!productRepo.existsById(id)) {
             throw new ResourceNotFoundException(
                     String.format(RESOURCE_NOT_FOUND, id)
@@ -89,7 +87,7 @@ public class ProductService {
         }
     }
 
-    private Product findOrThrow(Long id) throws ResourceNotFoundException {
+    private Product findOrThrow(Long id) {
         return productRepo.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException(String
                         .format(RESOURCE_NOT_FOUND, id)));
