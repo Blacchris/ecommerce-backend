@@ -1,11 +1,12 @@
-package com.example.ecommerce.common.dto;
+package com.example.ecommerce.cart.dto;
 
-import com.example.ecommerce.common.entity.Order;
+import com.example.ecommerce.cart.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 @Getter
@@ -20,7 +21,7 @@ public class OrderResponseDTO {
 
     private List<OrderItemDTO> orderItems;
 
-    private double totalAmount;
+    private BigDecimal totalAmount;
 
     private Order.OrderStatus status;
 
@@ -30,7 +31,7 @@ public class OrderResponseDTO {
         this.orderId = order.getOrderId();
         this.userId = order.getUser().getUserId();
         this.orderItems = order.getOrderItems().stream().map(OrderItemDTO::new).toList();
-        this.totalAmount = order.getTotalAmount();
+        this.totalAmount = order.getTotalAmount ();
         this.status = order.getStatus();
         this.createdAt = order.getCreatedAt();
 

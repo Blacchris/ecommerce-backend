@@ -1,11 +1,12 @@
 package com.example.ecommerce.common.service;
 
-import com.example.ecommerce.common.dto.CartResponseDTO;
-import com.example.ecommerce.common.entity.Cart;
-import com.example.ecommerce.common.entity.User;
-import com.example.ecommerce.common.repository.CartRepository;
-import com.example.ecommerce.common.repository.ProductRepository;
-import com.example.ecommerce.common.repository.UserRepository;
+import com.example.ecommerce.cart.dto.CartResponseDTO;
+import com.example.ecommerce.cart.entity.Cart;
+import com.example.ecommerce.cart.entity.User;
+import com.example.ecommerce.cart.repository.CartRepository;
+import com.example.ecommerce.cart.repository.ProductRepository;
+import com.example.ecommerce.cart.repository.UserRepository;
+import com.example.ecommerce.cart.service.CartService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

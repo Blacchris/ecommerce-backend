@@ -1,14 +1,16 @@
-package com.example.ecommerce.common.dto;
+package com.example.ecommerce.cart.dto;
 
-import com.example.ecommerce.common.entity.Order;
-import com.example.ecommerce.common.entity.OrderItem;
-import com.example.ecommerce.common.entity.Product;
-import jakarta.persistence.*;
+import com.example.ecommerce.cart.entity.OrderItem;
+import com.example.ecommerce.cart.entity.Product;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.math.BigDecimal;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -20,7 +22,7 @@ public class OrderItemDTO {
     private Product product;
 
     private Long quantity;
-    private double price;
+    private BigDecimal price;
 
     public OrderItemDTO(OrderItem orderItem) {
         this.id = orderItem.getId();

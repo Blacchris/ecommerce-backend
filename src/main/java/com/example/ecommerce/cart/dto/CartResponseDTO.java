@@ -1,6 +1,6 @@
-package com.example.ecommerce.common.dto;
+package com.example.ecommerce.cart.dto;
 
-import com.example.ecommerce.common.entity.Cart;
+import com.example.ecommerce.cart.entity.Cart;
 import lombok.Getter;
 import lombok.Setter;
 

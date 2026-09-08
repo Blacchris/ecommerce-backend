@@ -1,9 +1,9 @@
-package com.example.ecommerce.common.controller;
+package com.example.ecommerce.cart.controller;
 
-import com.example.ecommerce.common.dto.CartItemDTO;
-import com.example.ecommerce.common.dto.CartResponseDTO;
-import com.example.ecommerce.common.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.ecommerce.cart.dto.CartItemDTO;
+import com.example.ecommerce.cart.dto.CartResponseDTO;
+import com.example.ecommerce.cart.dto.OrderResponseDTO;
+import com.example.ecommerce.cart.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +47,11 @@ public class CartController {
     public ResponseEntity<Void> clearCart(@PathVariable Long userId){
         service.clearCart(userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/order/{userId}")
+    public ResponseEntity<OrderResponseDTO> order(@PathVariable Long userId){
+        OrderResponseDTO order = service.order(userId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 }

@@ -1,15 +1,17 @@
-package com.example.ecommerce.common.dto;
+package com.example.ecommerce.cart.dto;
 
-import com.example.ecommerce.common.entity.CartItems;
+import com.example.ecommerce.cart.entity.CartItems;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 public class CartItemDTO {
     private Long id;
     private String name;
-    private double price;
+    private BigDecimal price;
     private Long quantity;
 
     public CartItemDTO(CartItems cartItem) {

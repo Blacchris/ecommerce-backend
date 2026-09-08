@@ -1,20 +1,21 @@
-package com.example.ecommerce.common.service;
+package com.example.ecommerce.cart.service;
 
-import com.example.ecommerce.common.dto.OrderResponseDTO;
-import com.example.ecommerce.common.entity.*;
+import com.example.ecommerce.cart.dto.OrderResponseDTO;
+import com.example.ecommerce.cart.entity.*;
 import com.example.ecommerce.common.exception.CartItemNotFoundException;
 import com.example.ecommerce.common.exception.CartNotFoundException;
 import com.example.ecommerce.common.exception.ProductNotFoundException;
 import com.example.ecommerce.common.exception.UserNotFoundException;
-import com.example.ecommerce.common.repository.CartRepository;
-import com.example.ecommerce.common.dto.CartItemDTO;
-import com.example.ecommerce.common.dto.CartResponseDTO;
-import com.example.ecommerce.common.repository.ProductRepository;
-import com.example.ecommerce.common.repository.UserRepository;
+import com.example.ecommerce.cart.repository.CartRepository;
+import com.example.ecommerce.cart.dto.CartItemDTO;
+import com.example.ecommerce.cart.dto.CartResponseDTO;
+import com.example.ecommerce.cart.repository.OrderRepository;
+import com.example.ecommerce.cart.repository.ProductRepository;
+import com.example.ecommerce.cart.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +24,13 @@ public class CartService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
+    private final OrderRepository orderRepository;
 
-    public CartService(UserRepository userRepository, ProductRepository productRepository, CartRepository cartRepository) {
+    public CartService(UserRepository userRepository, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.cartRepository = cartRepository;
+        this.orderRepository = orderRepository;
     }
 
 
@@ -132,7 +135,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public double calculateTotal(Long userId){
+    public BigDecimal calculateTotal(Long userId){
         User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not Found."));
         Cart cart = user.getCart();
         if(cart == null)
@@ -140,9 +143,9 @@ public class CartService {
         if(cart.getCartItems().isEmpty()){
             throw new CartItemNotFoundException("Cart empty.");
         }
-        double total = 0D;
+        BigDecimal total = BigDecimal.ZERO;
         for(CartItems item : cart.getCartItems()){
-            total += item.getProduct().getPrice() * item.getQuantity();
+            total = item.getProduct().getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
         }
         return total;
     }
@@ -153,14 +156,37 @@ public class CartService {
 
     //ORDER ACTION
 
-//    public OrderResponseDTO order(Long userId){
-//        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("user not found."));
-//        Cart cart = user.getCart();
-//        Order order = new Order();
-//        for(CartItems item : cart.getCartItems()){
-//            order.getOrderItems().add(convertCartToOrder(item));
-//        }
-//        return new OrderResponseDTO(order);
-//    }
-//
+
+    @Transactional
+    public OrderResponseDTO order(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("user not found."));
+        Cart cart = user.getCart();
+
+        if(cart == null || cart.getCartItems() == null || cart.getCartItems().isEmpty()){ throw new IllegalStateException("Cart is empty."); }
+
+        Order order = new Order();
+        order.setUser(user);
+        order.setStatus(Order.OrderStatus.PENDING);
+
+        //BigDecimal totalPrice = BigDecimal.ZERO;
+
+        for(CartItems item : cart.getCartItems()){
+            OrderItem orderItem = convertCartToOrder(item);
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+
+         //   totalPrice = totalPrice.add(item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
+        }
+
+
+        BigDecimal totalPrice = cart.getCartItems().stream().map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()))).reduce(BigDecimal.ZERO,BigDecimal::add);
+
+        order.setTotalAmount(totalPrice);
+
+        Order savedOrder = orderRepository.save(order);
+        cart.getCartItems().clear();
+        cartRepository.save(cart);
+        return new OrderResponseDTO(savedOrder);
+    }
+
 }

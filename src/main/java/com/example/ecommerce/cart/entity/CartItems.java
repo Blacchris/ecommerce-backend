@@ -1,10 +1,12 @@
-package com.example.ecommerce.common.entity;
+package com.example.ecommerce.cart.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Setter
 @Getter
@@ -26,7 +28,7 @@ public class CartItems {
     private Product product;
 
     private Long quantity;
-    private double price;
+    private BigDecimal price;
 
     public CartItems(Product product, Long quantity) {
         this.product = product;

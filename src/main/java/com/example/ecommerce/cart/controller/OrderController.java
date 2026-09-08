@@ -1,11 +1,10 @@
-package com.example.ecommerce.common.controller;
+package com.example.ecommerce.cart.controller;
 
 
-import com.example.ecommerce.common.dto.OrderItemDTO;
-import com.example.ecommerce.common.dto.OrderResponseDTO;
-import com.example.ecommerce.common.repository.OrderRepository;
-import com.example.ecommerce.common.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.ecommerce.cart.dto.OrderItemDTO;
+import com.example.ecommerce.cart.dto.OrderResponseDTO;
+import com.example.ecommerce.cart.repository.OrderRepository;
+import com.example.ecommerce.cart.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
