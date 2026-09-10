@@ -1,7 +1,6 @@
 # E-Commerce Backend
 
-A modular monolithic e-commerce backend, built by a 3-person team learning backend development
-through implementation.
+A modular monolithic e-commerce backend,.
 
 This repository is the **minimal starting point** — enough for everyone to clone, connect to a
 database, and run tests, and nothing else. There is no User, Product, or Cart logic in here.
