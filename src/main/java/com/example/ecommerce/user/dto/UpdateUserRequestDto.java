@@ -1,16 +1,21 @@
 package com.example.ecommerce.user.dto;
 
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Data
-public class updateUserRequestDto {
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
+public class UpdateUserRequestDto {
     @Size(min = 3, max = 50, message = "username must be between 2 and 51")
     private String username;
 
