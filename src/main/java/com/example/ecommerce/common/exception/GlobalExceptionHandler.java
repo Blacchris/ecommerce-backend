@@ -40,6 +40,31 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleUnexpected(Exception ex, HttpServletRequest request) {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request);
     }
+    //taste exception added
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleUserNotFoundException(UserNotFoundException ex, HttpServletRequest request){
+        return build(HttpStatus.NOT_FOUND, ex.getMessage(), request);
+    }
+//taste
+    @ExceptionHandler(UnauthorizedActionException.class)
+    public ResponseEntity<ApiErrorResponse> handleUnauthorizedActionException(UnauthorizedActionException ex,HttpServletRequest request){
+        return build(HttpStatus.FORBIDDEN, ex.getMessage(), request);
+    }
+    //taste
+@ExceptionHandler(DuplicateUsernameException.class)
+public ResponseEntity<ApiErrorResponse> handleDuplicateUsernameException (DuplicateUsernameException ex, HttpServletRequest request){
+        return build(HttpStatus.CONFLICT, ex.getMessage(),request);
+}
+
+@ExceptionHandler(DuplicateEmailException.class)
+public ResponseEntity<ApiErrorResponse> handleDuplicateEmailException (DuplicateEmailException ex, HttpServletRequest request){
+        return build(HttpStatus.CONFLICT,ex.getMessage(),request);
+}
+@ExceptionHandler(SamePasswordException.class)
+public ResponseEntity<ApiErrorResponse> handleSamePasswordException(SamePasswordException ex,HttpServletRequest request){
+        return build(HttpStatus.BAD_REQUEST,ex.getMessage(),request);
+}
+
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleNotFound(ResourceNotFoundException ex,
@@ -64,4 +89,5 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(status).body(body);
     }
+
 }
